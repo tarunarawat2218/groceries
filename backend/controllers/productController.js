@@ -2,14 +2,13 @@ const Product = require("../models/productModel");
 const {
   success,
   created,
-  unauthorized,
   notFound,
   internalServerError,
 } = require("../response/apiResponse");
 
 const ApiResponseMessages = require("../response/apiResponseMessages");
 
-exports.createProduct = async (req, res, next) => {
+exports.createProduct = async (req, res) => {
   try {
     // Extract the product details from the request body
     const { name, category, price, description, imageUrl } = req.body;
@@ -35,6 +34,8 @@ exports.createProduct = async (req, res, next) => {
     internalServerError(res, ApiResponseMessages.INTERNAL_SERVER_ERROR);
   }
 };
+
+
 
 exports.getAllProducts = async (req, res) => {
   const products = await Product.find();
@@ -64,7 +65,6 @@ exports.deleteProduct = async (req, res) => {
   } catch (error) {
     internalServerError(
       res,
-      deletedProduct,
       ApiResponseMessages.PRODUCT_NOT_FROM_CART
     );
   }
