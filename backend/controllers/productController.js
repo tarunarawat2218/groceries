@@ -1,5 +1,11 @@
 const Product = require("../models/productModel");
-const { success, created, unauthorized, notFound, internalServerError } = require("../response/apiResponse");
+const {
+  success,
+  created,
+  unauthorized,
+  notFound,
+  internalServerError,
+} = require("../response/apiResponse");
 
 const ApiResponseMessages = require("../response/apiResponseMessages");
 
@@ -26,11 +32,7 @@ exports.createProduct = async (req, res, next) => {
       ApiResponseMessages.PRODUCT_ADDED_SUCCESSFULLY̥
     );
   } catch (error) {
-    // Handle any errors that occur during product creation
-    res.status(500).json({
-      success: false,
-      error: "Failed to create product",
-    });
+    internalServerError(res, ApiResponseMessages.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -45,18 +47,25 @@ exports.searchAllProducts = async (req, res) => {
 };
 
 //DELETE PRODUCTS
-exports.deleteProduct= async (req, res) => {
-    try {
-      const { id } = req.body;
-  
-      const deletedProduct = await Product.findByIdAndDelete(id);
-  
-      if (!deletedProduct) {
-        notFound(res, deletedProduct, ApiResponseMessages.PRODUCT_NOT_FOUND );
-      }else
-  
-      success(res, deletedProduct, ApiResponseMessages.PRODUCT_REMOVED_FROM_CART);
-    } catch (error) {
-      internalServerError(res, deletedProduct, ApiResponseMessages.PRODUCT_NOT_FROM_CART);
-    }
-  };
+exports.deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.body;
+
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      notFound(res, deletedProduct, ApiResponseMessages.PRODUCT_NOT_FOUND);
+    } else
+      success(
+        res,
+        deletedProduct,
+        ApiResponseMessages.PRODUCT_REMOVED_FROM_CART
+      );
+  } catch (error) {
+    internalServerError(
+      res,
+      deletedProduct,
+      ApiResponseMessages.PRODUCT_NOT_FROM_CART
+    );
+  }
+};
