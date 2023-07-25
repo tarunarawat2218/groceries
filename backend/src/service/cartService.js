@@ -7,28 +7,38 @@ exports.addToCart = async (userId, product, quantity, productId) => {
     const totalPrice = product.price * quantity;
     const cart = await exports.findCartByUserId(userId)
     if (!cart) {
-        const cart = new Cart({user: userId, items: []})
-        const existingItem = cart.items.find(item => item.productId.toString() === productId)
-        existingItem.quantity += quantity;
-        existingItem.price += totalPrice;
-    } else {
+        const cart = new Cart({userId: userId, items: []})
         cart.items.push({productId, quantity, price: totalPrice});
+        await cart.save();
+        return cart
+    } else {
+        const existingItem = cart.items.find(item => item.productId.toString() === productId)
+        if (!existingItem) {
+            cart.items.push({productId, quantity, price: totalPrice});
+        } else {
+            existingItem.quantity = quantity;
+            existingItem.price = totalPrice;
+        }
+
     }
-    cart.total += totalPrice;
+    cart.total = cart.items.reduce((total, item) => total + item.price, 0);
+
     await cart.save();
     return cart
 }
-exports.removeFromCart = async (cart, productId) => {
-
+exports.removeFromCart = async (productId, userId) => {
+    const cart = await exports.findCartByUserId(userId);
     const cartIndex = cart.items.findIndex(item => item.productId.toString() === productId);
     if (cartIndex === -1) {
-        return null
+        return null; // Item not found in the cart, you may want to handle this case accordingly
     }
-    const removedItems = cart.items.splice(cartIndex, 1)[0];
-    cart.total -= removedItems.price;
+    const removedItem = cart.items.splice(cartIndex, 1)[0]; // Use [0] to access the removed item directly
+    cart.total -= removedItem.price; // Subtract the price of the removed item from the total
     await cart.save();
-}
-exports.updateCartItemQuantity = async(cart,productId, newQuantity) =>{
+    return cart;
+};
+
+exports.updateCartItemQuantity = async (cart, productId, newQuantity) => {
     const itemIndex = cart.items.findIndex((item) => item.productId.toString() === productId);
 
     if (itemIndex === -1) {

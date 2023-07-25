@@ -39,7 +39,7 @@ exports.createToken = async (userId) => {
     const token = jwt.sign(
         {userId},
         process.env.JWT_SECRET_KEY || '',
-        {expiresIn: '1h'}
+        {expiresIn: '99h'}
     );
     return token;
 };
