@@ -4,6 +4,23 @@ const ProductService = require("../service/productService")
 const ApiResponse = require('../response/apiResponse');
 const ApiResponseMessages = require("../response/apiResponseMessages");
 
+exports.removeFromCart = async (req, res) => {
+    try {
+        const {productId} = req.body;
+        const {authorization} = req.headers;
+        const userId = UserService.getUserIdFromToken(authorization)
+        const cart = await CartService.findCartByUserId(userId);
+        if (!cart) {
+            ApiResponse.notFound(res, cart, ApiResponseMessages.PRODUCT_NOT_FOUND)
+        }
+        ApiResponse.success(res, {productId}, ApiResponseMessages.PRODUCT_ADDED_TO_CART)
+        return cart;
+    } catch {
+        ApiResponse.internalServerError(res, ApiResponseMessages.INTERNAL_SERVER_ERROR)
+
+    }
+}
+
 exports.addToCart = async (req, res) => {
     try {
         const {authorization} = req.headers;
@@ -21,22 +38,6 @@ exports.addToCart = async (req, res) => {
     }
 }
 
-exports.removeFromCart = async (req, res) => {
-    try {
-        const {productId} = req.body;
-        const {authorization} = req.headers;
-        const userId = UserService.getUserIdFromToken(authorization)
-        const cart = await CartService.findCartByUserId(userId);
-        if (!cart) {
-            ApiResponse.notFound(res, cart, ApiResponseMessages.PRODUCT_NOT_FOUND)
-        }
-        ApiResponse.success(res, {productId}, ApiResponseMessages.PRODUCT_ADDED_TO_CART)
-        return cart;
-    } catch {
-        ApiResponse.internalServerError(res, ApiResponseMessages.INTERNAL_SERVER_ERROR)
-
-    }
-}
 
 exports.getCartItems = async (req, res) => {
     try {
