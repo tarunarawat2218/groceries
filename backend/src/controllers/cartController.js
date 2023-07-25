@@ -20,7 +20,7 @@ exports.addToCart = async (req, res) => {
         ApiResponse.internalServerError(res, ApiResponseMessages.INTERNAL_SERVER_ERROR)
     }
 }
-//REMOVE FROM CART
+
 exports.removeFromCart = async (req, res) => {
     try {
         const {productId} = req.body;
@@ -37,8 +37,6 @@ exports.removeFromCart = async (req, res) => {
 
     }
 }
-
-//Update CART ITEMS
 
 exports.getCartItems = async (req, res) => {
     try {
