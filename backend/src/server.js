@@ -12,8 +12,8 @@ const dbURI = process.env.DB_URI;
 console.log('DB_URI:', dbURI);
 
 // Connect to the MongoDB database
-mongoose.connect( dbURI||"");
+mongoose.connect(dbURI || "");
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
