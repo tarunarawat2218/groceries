@@ -4,6 +4,7 @@ const ProductService = require("../service/productService")
 const ApiResponse = require('../response/apiResponse');
 const ApiResponseMessages = require("../response/apiResponseMessages");
 
+
 exports.addToCart = async (req, res) => {
     try {
         const {authorization} = req.headers;
@@ -20,6 +21,7 @@ exports.addToCart = async (req, res) => {
         ApiResponse.internalServerError(res, ApiResponseMessages.INTERNAL_SERVER_ERROR)
     }
 }
+
 
 exports.removeFromCart = async (req, res) => {
     try {
