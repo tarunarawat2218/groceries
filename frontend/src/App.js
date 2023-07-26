@@ -1,11 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from "./components/organisms/Header";
+import Footer from "./components/organisms/Footer";
 
 function App() {
-  return (
-  <>
-  </>
-  );
+    return (
+        <>
+            <Header/>
+            <Footer/>
+        </>
+    );
 }
 
 export default App;
