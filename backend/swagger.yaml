@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: My E-commerce API
+  version: 1.0.0
+
+paths:
+  /updateCart:
+    put:
+      summary: Update cart item quantity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authorization:
+                  type: string
+                  description: JWT token for authorization
+                  example: "Bearer <your_token>"
+                productId:
+                  type: string
+                  description: ID of the product to update in the cart
+                  example: "product123"
+                quantity:
+                  type: integer
+                  description: New quantity for the product in the cart
+                  example: 3
+      responses:
+        '200':
+          description: Cart updated successfully
+        '404':
+          description: Product not found
+
+  /removeFromCart:
+    delete:
+      summary: Remove item from the cart
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authorization:
+                  type: string
+                  description: JWT token for authorization
+                  example: "Bearer <your_token>"
+                productId:
+                  type: string
+                  description: ID of the product to remove from the cart
+                  example: "product123"
+      responses:
+        '200':
+          description: Item removed successfully
+        '404':
+          description: Product not found
+
+  /getCartItems:
+    get:
+      summary: Get cart items for the user
+      parameters:
+        - in: header
+          name: authorization
+          schema:
+            type: string
+          required: true
+          description: JWT token for authorization
+          example: "Bearer <your_token>"
+      responses:
+        '200':
+          description: Cart items fetched successfully
+        '404':
+          description: Cart not found
