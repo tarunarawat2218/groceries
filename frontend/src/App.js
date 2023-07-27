@@ -1,12 +1,10 @@
 import './App.css';
-import Header from "./components/organisms/Header";
-import Footer from "./components/organisms/Footer";
+import HomePage from "./components/pages/HomePage";
 
 function App() {
     return (
         <>
-            <Header/>
-            <Footer/>
+            <HomePage/>
         </>
     );
 }

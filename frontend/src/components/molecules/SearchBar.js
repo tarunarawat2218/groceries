@@ -1,26 +1,30 @@
-import React, {useState} from 'react';
+import { Container, InputAdornment, TextField } from "@mui/material";
+import { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 
-const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState('');
+export default function SearchBar() {
+    const [searchTerm, setSearchTerm] = useState("");
 
-    const handleInputChange = (event) => {
+    const handleChange = (event) => {
         setSearchTerm(event.target.value);
     };
 
-
     return (
-        <div className="col-md-7">
-            <div className="d-flex form-inputs">
-                <input
-                    className="search form-control"
-                    type="text"
-                    placeholder="Search any product..."
-                    value={searchTerm}
-                    onChange={handleInputChange}
-                />
-            </div>
-        </div>
+        <Container maxWidth="md" sx={{  }}>
+            <TextField
+                id="search"
+                type="search"
+                label="Search"
+                value={searchTerm}
+                onChange={handleChange}
+                sx={{ width: 600 }}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                        </InputAdornment>
+                    ),
+                }}
+            />
+        </Container>
     );
-};
-
-export default SearchBar;
+}
