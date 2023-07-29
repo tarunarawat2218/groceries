@@ -9,7 +9,8 @@ import React from 'react';
 //     );
 // }
 const Button = ({ onClick, className, text }) => (
-    <button onClick={onClick} className={className}>
+    <button onClick={onClick} className={className} style={{height:"10", width:"5rem", backgroundColor:
+"greenYellow"}}>
         {text}
     </button>
 );

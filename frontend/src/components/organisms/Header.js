@@ -1,13 +1,19 @@
 import React from 'react';
-
+import { useSelector } from 'react-redux';
 import './Header.css'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SearchBar from "../molecules/SearchBar";
+import Button from "@mui/material/Button"
 
 export default function Header() {
+    const Header = () =>{
+        const products = useSelector(state => state)
+        console.log('Products',products);
+    }
+
     return (<div>
         <PrimarySearchAppBar/>
     </div>)
@@ -33,7 +39,8 @@ function PrimarySearchAppBar() {
                     </SearchBar>
                     <Box sx={{flexGrow: 1}}/>
 
-
+          
+                    <Button variant="contained">Cart</Button>
                 </Toolbar>
             </AppBar>
         </Box>
