@@ -11,6 +11,7 @@ export default function Banner() {
             <CardMedia
                 component="img"
                 height="194"
+                width="10rem"
                 image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=50,metadata=none,w=2700/layout-engine/2022-05/Group-33704.jpg"
                 alt="Paella dish"
             />

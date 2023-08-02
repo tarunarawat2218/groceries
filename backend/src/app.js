@@ -2,7 +2,10 @@ const express = require("express");
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const app = express();
+const cors = require("cors");
+
 app.use(express.json());
+app.use(cors());
 
 const products = require('./routes/productRoute');
 const users = require('./routes/userRoute');

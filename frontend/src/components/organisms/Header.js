@@ -9,10 +9,10 @@ import SearchBar from "../molecules/SearchBar";
 import Button from "@mui/material/Button"
 
 export default function Header() {
-    const Header = () =>{
-        const products = useSelector(state => state)
-        console.log('Products',products);
-    }
+    // const Header = () =>{
+    //     const products = useSelector(state => state)
+    //     console.log('Products',products);
+    // }
 
     return (<div>
         <PrimarySearchAppBar/>
@@ -39,8 +39,9 @@ function PrimarySearchAppBar() {
                     </SearchBar>
                     <Box sx={{flexGrow: 1}}/>
 
-          
-                    <Button variant="contained">Cart</Button>
+                    
+                    <Button variant="contained" style={{margin:"1rem"}}>Login</Button>
+                    <Button variant="contained" color='success'>Cart</Button>
                 </Toolbar>
             </AppBar>
         </Box>
