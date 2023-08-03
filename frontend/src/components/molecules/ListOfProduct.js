@@ -4,21 +4,28 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import { Typography } from '@mui/material';
+import { Typography,CircularProgress } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { fetchProducts } from '../../redux/slice/productReducer';
+import AddTOCart from '../atoms/Addtocart';
 
 export default function ListOfProduct() {
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch();
+  const {items,error,loading} = useSelector((state) => state.products);
+
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/products')
-      .then(response => {
-        console.log(response.data)
-        setItems(response.data.data);
-      })
-      .catch(error => {
-        console.error('API request error:', error);
-      });
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div><CircularProgress /></div>; // Display a loading state while fetching data
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Display an error message if there's an error
+  }
+
   return (
 
     <div>
@@ -36,9 +43,7 @@ export default function ListOfProduct() {
               />
               <Typography style={{ fontSize: "1.5rem" }}>{product.name}</Typography>
               <Typography>Price: ${product.price}</Typography>
-              <Button variant="contained" color="success">
-                Add to Cart
-              </Button>
+              <AddTOCart/>
             </Card>
           </Grid>
         ))}
