@@ -1,0 +1,18 @@
+.logIn{
+    background-color: #fff;
+    border: 2px solid white;
+    height: 2.7rem;
+    min-width: 5rem;
+    padding: 1.2rem;
+    margin: 5px;
+}
+.cart{
+    background-color: green;
+    border: 2px solid green;
+    height: 2.7rem;
+    min-width: 5rem;
+    padding: 1.2rem;
+    margin: 5px;
+
+}
+
