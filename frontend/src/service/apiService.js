@@ -20,17 +20,60 @@ class ApiService {
         try {
             const response = await axios.post(`${this.baseURL}/auth/login`, {email, password});
             console.log(response)
-            return response.data.data.token;
+            return response.data.data;
         } catch (error) {
-            console.error(error)
-            throw error.response.data.error;
+            throw Error(error.response.data.message)
         }
     };
 
     async getCartItems() {
+        const token = localStorage.getItem('token');
+
         try {
-            const response = await axios.get(`${this.baseURL}/cart`);
-            return response.data;
+            const response = await axios.get(`${this.baseURL}/cart`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response)
+            return response.data.data.items;
+        } catch (error) {
+            throw error.response.data.error;
+        }
+    }
+
+    async updateCart(productId, quantity) {
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await axios.post(`${this.baseURL}/cart`, {
+                productId: productId,
+                quantity: quantity,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response)
+            return response.data.data.items;
+        } catch (error) {
+            throw error.response.data.error;
+        }
+    }
+
+    async deleteProduct(productId) {
+        const token = localStorage.getItem('token');
+
+        try {
+            const response = await axios.delete(`${this.baseURL}/cart`, {
+                productId: productId,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            console.log(response)
+            return response.data.data.items;
         } catch (error) {
             throw error.response.data.error;
         }

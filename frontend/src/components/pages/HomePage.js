@@ -1,15 +1,14 @@
 import React from 'react';
 
 import Banner from "../organisms/Banner";
-import Item from "../organisms/Item"
+import ListOfProduct from "../molecules/ListOfProduct";
 
 export default function HomePage() {
-    return (<>
-       
-        <Banner/>
 
-        
-        <Item/>
-       
+    return (<>
+        <Banner/>
+        <h2>List of Products</h2>
+        <ListOfProduct/>
+
     </>);
 }
