@@ -15,6 +15,7 @@ export default function MediaCard() {
   const error = useSelector(state => state.cart.error);
   const dispatch = useDispatch();
 
+  
   useEffect(() => {
     dispatch(fetchCartItems());
   }, [dispatch]);
