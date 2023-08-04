@@ -23,14 +23,14 @@ exports.signUp = async (req, res) => {
 //SIGNIN
 exports.signIn = async (req, res) => {
     try {
-        const {username, password} = req.body;
-        const user = await UserService.findExistingUserByUserName(username);
+        const {email, password} = req.body;
+        const user = await UserService.findExistingUserByEmail(email);
         if (!user) {
-            ApiResponse.unauthorized(res, user, ApiResponseMessages.USER_NOT_FOUND)
+            return ApiResponse.unauthorized(res, ApiResponseMessages.USER_NOT_FOUND)
         }
         const isPasswordMatch = await UserService.checkUserPassword(password, user.password)
         if (!isPasswordMatch) {
-            ApiResponse.unauthorized(res, isPasswordMatch, ApiResponseMessages.INVALID_CREDENTIALS)
+            return ApiResponse.unauthorized(res, isPasswordMatch, ApiResponseMessages.INVALID_CREDENTIALS)
         }
         const token = await UserService.createToken(user._id)
 
@@ -46,7 +46,7 @@ exports.getUserDetails = async (req, res) => {
     try {
         const {authorization} = req.headers;
         console.log(authorization)
-        const userId =  UserService.getUserIdFromToken(authorization)
+        const userId = UserService.getUserIdFromToken(authorization)
         console.log(userId)
         const user = await UserService.findExistingUserByID(userId)
         if (!user) {

@@ -1,45 +1,54 @@
 // authSlice.js
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import ApiService from '../../service/apiService'
+import ApiService from '../../service/apiService';
 
-
-export const fetchUser = (email, password) => createAsyncThunk('user/fetch', async () => {
-    const users = await ApiService.loginUser(email, password);
-    return users;
+export const loginUser = createAsyncThunk('login', async ({email, password}) => {
+    return await ApiService.loginUser(email, password);
 });
-
 
 const initialState = {
     isLoggedIn: false,
     token: null,
     isLoading: false,
     error: null,
-}
+};
+
 const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        checkLoginStatus: (state) => {
+            const token = localStorage.getItem('token');
+            console.log(token)
+            state.isLoggedIn = token !== null;
+        },
+        logout: (state) => {
+            localStorage.removeItem("token")
+            state.isLoggedIn = false
+        },
+    },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchUser.pending, (state) => {
+            .addCase(loginUser.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(fetchUser.fulfilled, (state, action) => {
+            .addCase(loginUser.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isLoggedIn = true;
-                state.token = action.payload;
+                state.token = action.payload.token;
+                localStorage.setItem('token', action.payload.token);
                 state.error = null;
             })
-            .addCase(fetchUser.rejected, (state, action) => {
+            .addCase(loginUser.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isLoggedIn = false;
                 state.token = null;
-                state.error = "login error";
-                console.log("error login")
+                state.error = action.error.message;
             });
     },
 });
 
+export const {checkLoginStatus, logout, incrementByAmount} = userSlice.actions
 
 export default userSlice.reducer;

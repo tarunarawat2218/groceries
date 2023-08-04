@@ -1,31 +1,27 @@
-import './App.css';
-import Login from "./components/organisms/Login";
 import React from 'react';
-import Header from "../src/components/organisms/Header";
-import Homepages from "./components/pages/HomePage";
-import Cart from '../src/components/organisms/Cart'
-
-// import Footer from "../src/components/organisms/Footer";
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
+import Login from './components/organisms/Login';
+import Header from './components/organisms/Header';
+import Homepages from './components/pages/HomePage';
+import Cart from '../src/components/organisms/Cart';
 import Signup from './components/organisms/Signup.js';
-
+import {useLoginStatus} from './hooks/useAuth'
 
 function App() {
-    return (<BrowserRouter>
-        <Header/>
-        <Routes>
-        <Route path="/" element={<Homepages />}>
-          </Route>
-        <Route path="/login" element={<Login />}>
-        </Route>
-        <Route path="/sign" element={<Signup />}>
-        </Route>
-        <Route path="/cart" element={<Cart />}>
-        </Route>
-      </Routes>
-       
-        
-    </BrowserRouter>);
+    const isLoggedIn = useLoginStatus();
+
+    return (
+        <BrowserRouter>
+            <Header/>
+            <Routes>
+                {/* Redirect to home page if the user is already logged in */}
+                <Route path="/login" element={isLoggedIn ? <Navigate to="/"/> : <Login/>}/>
+                <Route path="/" element={<Homepages/>}/>
+                <Route path="/sign" element={<Signup/>}/>
+                <Route path="/cart" element={isLoggedIn ? <Cart/> : <Login/>}/>
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
