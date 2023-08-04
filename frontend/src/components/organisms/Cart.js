@@ -1,12 +1,31 @@
-import * as React from 'react';
+import { useEffect } from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Grid  from '@mui/material/Grid';
-import MyComponent from '../atoms/Addtocart';
+import MyComponent from '../atoms/AddToCart';
+import { useSelector} from 'react-redux/es/hooks/useSelector';
+import { useDispatch } from 'react-redux';
+import { fetchCartItems } from '../../redux/slice/cartReducer';
 
 export default function MediaCard() {
+    // const cartItems = useSelector(state => state.cart.items);
+  const loading = useSelector(state => state.cart.loading);
+  const error = useSelector(state => state.cart.error);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCartItems());
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <>
     <Grid container spacing={1} sx={{ flexGrow: 1 }}>
@@ -19,7 +38,7 @@ export default function MediaCard() {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Mazza
+          Pepsi
         </Typography>
         <Typography variant="body2" color="text.secondary">
         Price: 50

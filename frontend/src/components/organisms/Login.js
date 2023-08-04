@@ -9,23 +9,17 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch} from 'react-redux';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import { Navigate } from 'react-router-dom';
 import { fetchUser } from '../../redux/slice/UserReducer';
-
-
-
-  
-  const defaultTheme = createTheme();
 
 export default function Login()
 {
 
 const dispatch = useDispatch();
-//const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
@@ -36,13 +30,13 @@ const handleLogin = (event) => {
   dispatch(fetchUser(credentials));
 };
 
-// if (isLoggedIn) {
-//   return <Navigate to="/" />;
-//  }
+if (isLoggedIn) {
+  return <Navigate to="/" />;
+ }
 
     return(
         <>
-         <ThemeProvider theme={defaultTheme}>
+         
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -67,6 +61,7 @@ const handleLogin = (event) => {
               autoComplete="email"
               color='success'
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -78,6 +73,7 @@ const handleLogin = (event) => {
               id="password"
               color='success'
               autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="success" />}
@@ -89,6 +85,7 @@ const handleLogin = (event) => {
               variant="contained"
               color='success'
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleLogin}
             >
             Log In
             </Button>
@@ -107,7 +104,7 @@ const handleLogin = (event) => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    
         </>
     )
 }

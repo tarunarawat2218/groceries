@@ -23,7 +23,15 @@ import axios from 'axios';
     throw error.response.data.error;
   }
 };
+async getCartItems() {
+  try {
+    const response = await axios.get(`${this.baseURL}/cart`);
+    return response.data;
+  } catch (error) {
+    throw error.response.data.error;
+  }
+}
 }
 
 
-export default   new ApiService();
+export default new ApiService()

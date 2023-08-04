@@ -63,7 +63,7 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
-                type="email"
+                
                 isInvalid
                 color='success'
                 
@@ -76,7 +76,7 @@ export default function SignUp() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                
                 id="password"
                 color='success'
                 autoComplete="current-password"
