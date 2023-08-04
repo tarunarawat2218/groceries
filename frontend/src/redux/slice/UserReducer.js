@@ -1,45 +1,44 @@
 // authSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import ApiService from  '../../service/apiService'
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import ApiService from '../../service/apiService'
 
 
-export const fetchUser =(credential) => createAsyncThunk('user/fetch', async () => {
-    const users = await ApiService.loginUser(credential);
-  return users;
-  });
+export const fetchUser = (email, password) => createAsyncThunk('user/fetch', async () => {
+    const users = await ApiService.loginUser(email, password);
+    return users;
+});
 
 
-const initialState={
+const initialState = {
     isLoggedIn: false,
-    user: null,
-    isLoading: false, 
+    token: null,
+    isLoading: false,
     error: null,
 }
 const userSlice = createSlice({
-  name: 'user',
-  initialState: initialState,
-  reducers: {
+    name: 'user',
+    initialState: initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder
-          .addCase(fetchUser.pending, (state) => {
-            state.isLoading = true;
-            state.error = null;
-          })
-          .addCase(fetchUser.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isLoggedIn = true;
-            state.user = action.payload;
-            state.error = null;
-          })
-          .addCase(fetchUser.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isLoggedIn = false;
-            state.user = null;
-            state.error = action.payload; 
-            console.log("error login")
-          });
-      },
-  },
+            .addCase(fetchUser.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isLoggedIn = true;
+                state.token = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isLoggedIn = false;
+                state.token = null;
+                state.error = "login error";
+                console.log("error login")
+            });
+    },
 });
 
 

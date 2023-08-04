@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,106 +9,131 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useDispatch} from 'react-redux';
-import {useState, useEffect} from 'react';
-import { useSelector } from 'react-redux/es/hooks/useSelector';
-import { Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { fetchUser } from '../../redux/slice/UserReducer';
 
+export default function Login() {
+  const dispatch = useDispatch();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
-  
-  const defaultTheme = createTheme();
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    setEmailError('');
+  };
 
-export default function Login()
-{
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    setPasswordError('');
+  };
 
-const dispatch = useDispatch();
-//const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const validateForm = () => {
+    let valid = true;
 
-const [email, setEmail] = useState('');
-const [password, setPassword] = useState('');
+    if (!email.trim()) {
+      setEmailError('Email is required.');
+      valid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('Invalid email address.');
+      valid = false;
+    }
 
-const handleLogin = (event) => {
-  event.preventDefault();
-  const credentials = { email, password };
-  dispatch(fetchUser(credentials));
-};
+    if (!password.trim()) {
+      setPasswordError('Password is required.');
+      valid = false;
+    } else if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters.');
+      valid = false;
+    }
 
-// if (isLoggedIn) {
-//   return <Navigate to="/" />;
-//  }
+    return valid;
+  };
 
-    return(
-        <>
-         <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            Log In
-          </Typography>
-          <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              color='success'
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              color='success'
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="success" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color='success'
-              sx={{ mt: 3, mb: 2 }}
-            >
-            Log In
-            </Button>
-            <Grid container>
-              <Grid item xs color='success'>
-                <Link href="#" variant="body2" >
-                  Forgot password?
-                </Link>
+  const handleLogin = (event) => {
+    event.preventDefault();
+    if (validateForm()) {
+      dispatch(fetchUser(email, password));
+    }
+  };
+
+  return (
+      <>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+          >
+            <Typography component="h1" variant="h5">
+              Log In
+            </Typography>
+            <Box component="form" noValidate sx={{ mt: 1 }}>
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  color='success'
+                  autoFocus
+                  value={email}
+                  onChange={handleEmailChange}
+                  error={Boolean(emailError)}
+                  helperText={emailError}
+              />
+              <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  color='success'
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  error={Boolean(passwordError)}
+                  helperText={passwordError}
+              />
+              <FormControlLabel
+                  control={<Checkbox value="remember" color="success" />}
+                  label="Remember me"
+              />
+              <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color='success'
+                  sx={{ mt: 3, mb: 2 }}
+                  onClick={handleLogin}
+              >
+                Log In
+              </Button>
+              <Grid container>
+                <Grid item xs color='success'>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Grid>
+                <Grid item>
+                  <Link href="/sign" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Link href="/sign" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            </Box>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
-        </>
-    )
+        </Container>
+      </>
+  )
 }
-        
