@@ -26,6 +26,15 @@ class ApiService {
             throw error.response.data.error;
         }
     };
+
+    async getCartItems() {
+        try {
+            const response = await axios.get(`${this.baseURL}/cart`);
+            return response.data;
+        } catch (error) {
+            throw error.response.data.error;
+        }
+    }
 }
 
 

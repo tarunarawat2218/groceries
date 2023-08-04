@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, {useEffect } from 'react';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import { Typography,CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { fetchProducts } from '../../redux/slice/productReducer';
-import AddTOCart from '../atoms/Addtocart';
+import AddTOCart from '../atoms/AddToCart';
 
 export default function ListOfProduct() {
   const dispatch = useDispatch();
