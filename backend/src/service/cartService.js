@@ -56,8 +56,9 @@ exports.updateCartItemQuantity = async (cart, productId, newQuantity) => {
 
     return cart;
 }
-exports.clearUserCart = async (cart) => {
+exports.clearUserCart = async (userId) => {
 
+    const cart = await exports.findCartByUserId(userId)
 
     // Clear all items from the cart
     cart.items = [];
