@@ -8,9 +8,13 @@ export const fetchCartItems = createAsyncThunk('cart/fetchItems', async () => {
 export const addToCartCall = createAsyncThunk('cart/addToCart', async ({productId, quantity}) => {
     return await ApiService.updateCart(productId, quantity);
 });
+export const placeOrder = createAsyncThunk('order/placeOrder', async ({items,total}) => {
+    return await ApiService.updateCart(items,total);
+});
 
 const initialState = {
     items: [],
+    total: 0,
     loading: false,
     error: null,
 };
@@ -26,7 +30,8 @@ const cartSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchCartItems.fulfilled, (state, action) => {
-                state.items = action.payload;
+                state.items = action.payload.items;
+                state.total = action.payload.total;
                 state.loading = false;
                 state.error = null;
                 console.log("fetchCartItems")
@@ -34,8 +39,17 @@ const cartSlice = createSlice({
             })
             .addCase(fetchCartItems.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message; // Store the error message for display in the component
-            });
+                state.error = action.error.message; 
+            })
+            
+            .addCase(placeOrder.fulfilled, (initialState, action) => {
+                initialState.items = action.payload.items;
+                initialState.total = action.payload.total;
+              initialState.loading = false;
+                initialState.error = null;
+            })
+
+            
     },
 });
 

@@ -44,6 +44,7 @@ export default function Header() {
                             Login
                         </Button>
                     )}
+                    <Button variant="contained" href='/order' color='success' style={{margin: '1rem'}}>My Orders</Button>
                     <Button variant="contained" href='/cart' color='success'>Cart</Button>
                 </Toolbar>
             </AppBar>
