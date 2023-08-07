@@ -50,9 +50,10 @@ exports.deleteProduct = async (req, res) => {
                 ApiResponseMessages.PRODUCT_REMOVED_FROM_CART
             );
     } catch (error) {
+        console.log(error)
         ApiResponse.internalServerError(
             res,
-            ApiResponseMessages.PRODUCT_NOT_FROM_CART
+            ApiResponseMessages.PRODUCT_NOT_FROM_CART, error
         );
     }
 };

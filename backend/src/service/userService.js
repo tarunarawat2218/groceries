@@ -49,8 +49,14 @@ exports.getUserIdFromToken =  (authorization) => {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY??"")
     return decodedToken.userId;
 }
-exports.getExpFromToken =  (authorization) => {
+exports.getExpFromToken = (authorization) => {
+    // Check if the authorization parameter is provided and has a valid value
+    if (!authorization || typeof authorization !== 'string') {
+      throw new Error('Invalid or missing authorization value');
+    }
+  
     const token = authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY??"")
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY ?? "");
     return decodedToken.exp;
-}
+  };
+  

@@ -17,7 +17,6 @@ exports.addToProduct = async (name,
         imageUrl,
     });
 
-    // Save the product to the database
     return await newProduct.save()
 }
 
