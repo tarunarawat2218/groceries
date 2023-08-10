@@ -12,7 +12,7 @@ exports.createOrder = async (req, res) => {
       console.log(items);
       console.log(total);
       const order = await OrderService.createOrder(userId, items, total);
-      CartService.clearUserCart(userId)
+     await  CartService.clearUserCart(userId)
       ApiResponse.success(res, order, ApiResponseMessages.ORDER_CREATED_SUCCESSFULLY);
     } catch (error) {
       console.error(error);

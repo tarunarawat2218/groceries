@@ -3,11 +3,12 @@ const Order = require('../models/orderModel');
 const OrderService = {
   createOrder: async (userId, items, total) => {
     try {
-      const order = await Order.create({
+      const order = await Order({
         userId,
-        items,
+       items,
         total,
       });
+await       order.save();
       return order;
     } catch (error) {
       throw new Error('Failed to create order');

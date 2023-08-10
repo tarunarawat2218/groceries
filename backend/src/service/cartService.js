@@ -8,13 +8,13 @@ exports.addToCart = async (userId, product, quantity, productId) => {
     const cart = await exports.findCartByUserId(userId)
     if (!cart) {
         const cart = new Cart({userId: userId, items: []})
-        cart.items.push({productId, quantity, price: totalPrice});
+        cart.items.push({productId, quantity, price: totalPrice, name:product.name,imageUrl:product.imageUrl});
         await cart.save();
         return cart
     } else {
         const existingItem = cart.items.find(item => item.productId.toString() === productId)
         if (!existingItem) {
-            cart.items.push({productId, quantity, price: totalPrice});
+            cart.items.push({productId, quantity, price: totalPrice,name:product.name,imageUrl:product.imageUrl});
         } else {
             existingItem.quantity = quantity;
             existingItem.price = totalPrice;
