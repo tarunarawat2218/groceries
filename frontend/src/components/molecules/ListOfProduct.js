@@ -5,7 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import {CircularProgress, Typography} from '@mui/material';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchProducts} from '../../redux/slice/productReducer';
-import AddToCartButton from '../atoms/AddToCartButton';
+import AddToCartButton from './AddToCartButton';
 
 export default function ListOfProduct() {
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function ListOfProduct() {
 
                 {items.map(product => (
                     <Grid item xs={12} md={3}>
-                        <Card key={product._id} sx={{maxWidth: 345, marginLeft: 5}}>
+                        <Card key={product._id} sx={{maxWidth: 345, marginBottom: "1rem", marginLeft:"2rem"}}>
                             <CardMedia
                                 component="img"
                                 height="194"
@@ -39,9 +39,9 @@ export default function ListOfProduct() {
                                 } // Use the dynamic image URL from the API
                                 alt="Product Image"
                             />
-                            <Typography style={{fontSize: "1.5rem"}}>{product.name}</Typography>
-                            <Typography>Price: ${product.price}</Typography>
-                            <AddToCartButton productId={product._id}/>
+                            <Typography style={{fontSize: "1.5rem", margin:"0.5rem"}}>{product.name}</Typography>
+                            <Typography style={{margin:"0.5rem"}}>Price: ${product.price}</Typography>
+                            <AddToCartButton  productId={product._id}/>
                         </Card>
                     </Grid>
                 ))}

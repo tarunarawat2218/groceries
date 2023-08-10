@@ -32,8 +32,8 @@ const AddToCartButton = ({productId}) => {
             setIsLoading(true);
             if (quantity > 0) {
                 const newQuantity = quantity + 1
-                setQuantity(newQuantity);
                 await ApiService.updateCart(productId, newQuantity);
+                setQuantity(newQuantity);
             } else {
                 await ApiService.updateCart(productId, 1);
                 setQuantity(1);
@@ -47,25 +47,35 @@ const AddToCartButton = ({productId}) => {
     };
 
     const handleRemoveFromCart = async () => {
+       try{
+        setIsLoading(true);
+
         if (quantity > 1) {
             const newQuantity = quantity - 1
-            setQuantity(newQuantity);
             await ApiService.updateCart(productId, newQuantity);
+            setQuantity(newQuantity);
         } else {
+            await ApiService.updateCart(productId, 0);
             setIsAdded(false);
             setQuantity(0);
-            await ApiService.updateCart(productId, 0);
         }
+       }catch(error){
+        console.error(error);
+
+       }
+       finally {
+        setIsLoading(false);
+    }
     };
 
     return (
-        <div>
+        <div style={{margin:"0.5rem"}}>
             {isAdded ? (
                 <>
                     <Button variant="contained" color="success" onClick={handleRemoveFromCart} disabled={isLoading}>
                         -
                     </Button>
-                    {isLoading ? <CircularProgress/> : <span>{quantity}</span>}
+                    {isLoading ? <CircularProgress style={{color:"green", size:"2px"}}/> : <span  style={{margin:"0.5rem"}}>{quantity}</span>}
 
                     <Button variant="contained" color="success" onClick={handleAddToCart} disabled={isLoading}>
                         +

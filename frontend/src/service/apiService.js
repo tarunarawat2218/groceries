@@ -98,6 +98,36 @@ class ApiService {
     }
 
    }
+   async clearUserCart() {
+    const token = localStorage.getItem('token');
+    
+    try {
+        const response = await axios.post(`${this.baseURL}/cart/clear`, null, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(response);
+        return response.data.data.items; 
+    } catch (error) {
+        throw error.response.data.error;
+    }
+}
+async getOrders() {
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await axios.get(`${this.baseURL}/order`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data.data;
+    } catch (error) {
+        throw error.response.data.error;
+    }
+}
+
 }
 
 
