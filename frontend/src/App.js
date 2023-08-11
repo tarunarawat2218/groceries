@@ -1,10 +1,11 @@
 import React from 'react';
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
-import Login from './components/organisms/Login';
+import Login from './components/pages/Login';
 import Header from './components/organisms/Header';
 import Homepages from './components/pages/HomePage';
-import Cart from '../src/components/organisms/Cart';
-import Signup from './components/organisms/Signup.js';
+import Cart from '../src/components/pages/Cart';
+import Order from '../src/components/pages/Order';
+import Signup from './components/pages/Signup.js';
 import {useLoginStatus} from './hooks/useAuth'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/" element={<Homepages/>}/>
                 <Route path="/sign" element={<Signup/>}/>
                 <Route path="/cart" element={isLoggedIn ? <Cart/> : <Login/>}/>
+                <Route path="/order" element={isLoggedIn ? <Order/> : <Login/>}/>
             </Routes>
         </BrowserRouter>
     );

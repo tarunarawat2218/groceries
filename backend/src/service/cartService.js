@@ -8,13 +8,13 @@ exports.addToCart = async (userId, product, quantity, productId) => {
     const cart = await exports.findCartByUserId(userId)
     if (!cart) {
         const cart = new Cart({userId: userId, items: []})
-        cart.items.push({productId, quantity, price: totalPrice});
+        cart.items.push({productId, quantity, price: totalPrice, name:product.name,imageUrl:product.imageUrl});
         await cart.save();
         return cart
     } else {
         const existingItem = cart.items.find(item => item.productId.toString() === productId)
         if (!existingItem) {
-            cart.items.push({productId, quantity, price: totalPrice});
+            cart.items.push({productId, quantity, price: totalPrice,name:product.name,imageUrl:product.imageUrl});
         } else {
             existingItem.quantity = quantity;
             existingItem.price = totalPrice;
@@ -56,8 +56,9 @@ exports.updateCartItemQuantity = async (cart, productId, newQuantity) => {
 
     return cart;
 }
-exports.clearUserCart = async (cart) => {
+exports.clearUserCart = async (userId) => {
 
+    const cart = await exports.findCartByUserId(userId)
 
     // Clear all items from the cart
     cart.items = [];

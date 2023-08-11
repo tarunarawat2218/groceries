@@ -36,7 +36,7 @@ exports.searchAllProducts = async (req, res) => {
     ApiResponse.success(res, products, ApiResponseMessages.PRODUCT_ADDED_SUCCESSFULLY);
 };
 
-//DELETE PRODUCTS
+
 exports.deleteProduct = async (req, res) => {
     try {
         const {id} = req.body;
@@ -50,9 +50,10 @@ exports.deleteProduct = async (req, res) => {
                 ApiResponseMessages.PRODUCT_REMOVED_FROM_CART
             );
     } catch (error) {
+        console.log(error)
         ApiResponse.internalServerError(
             res,
-            ApiResponseMessages.PRODUCT_NOT_FROM_CART
+            ApiResponseMessages.PRODUCT_NOT_FROM_CART, error
         );
     }
 };

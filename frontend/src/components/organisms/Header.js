@@ -26,7 +26,7 @@ export default function Header() {
 
     return (
         <Box sx={{flexGrow: 1}}>
-            <AppBar position="static" color="primary">
+            <AppBar position="static" style={{backgroundColor:"#FDFDFD",padding:"0.5rem"}}>
                 <Toolbar>
                     <AppLogo/>
                     <SearchBar>
@@ -44,6 +44,7 @@ export default function Header() {
                             Login
                         </Button>
                     )}
+                    <Button variant="contained" href='/order' color='success' style={{margin: '1rem'}}>My Orders</Button>
                     <Button variant="contained" href='/cart' color='success'>Cart</Button>
                 </Toolbar>
             </AppBar>

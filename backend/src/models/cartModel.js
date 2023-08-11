@@ -23,10 +23,6 @@ const cartItemSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-        required: true,
-    },
 }, { _id: false });
 
 const cartSchema = new mongoose.Schema({
