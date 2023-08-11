@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartItems, placeOrder, clearCart } from '../../redux/slice/cartReducer';
+import { fetchCartItems, placeOrder} from '../../redux/slice/cartReducer';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -14,7 +14,7 @@ export default function Cart() {
   const error = useSelector((state) => state.cart.error);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect(() => {  <h1>MY CART</h1>
     dispatch(fetchCartItems());
   }, [dispatch]);
 
@@ -29,27 +29,28 @@ export default function Cart() {
   return (
     <>
       <div style={{}}>
+        <h1 style={{padding:"1rem",fontFamily: "Noto Serif Khojki, serif"}} >MY CART</h1>
         {items.map((product) => (
           <ul key={product.id}>
             <li style={{ maxWidth: 500, listStyle: 'none' }}>
-              <Card sx={{ display: 'flex' }}>
-                <CardContent sx={{ flex: '1 0 auto', width: '15rem' }}>
+              <Card sx={{ display: 'flex', width:"80rem", marginLeft:"5rem", borderRadius:5, boxShadow:""}}>
+                <CardContent sx={{ flex: '1 0 auto', width: '20rem' }}>
                   <CardMedia
-                    sx={{ height: 300 }}
+                    sx={{ height: 200, width:"18rem" }}
                     image={product.imageUrl}
                     title="green iguana"
                   />
                 </CardContent>
                 <CardContent style={{ maxWidth: 800 }}>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h3" component="div" mr={50} style={{fontFamily: "rank Ruhl Libre, serif"}}>
                     {product.name}
                   </Typography>
-                  <Typography>{product.description}</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {product.price}
+                  <Typography variant="body1" color="text.secondary" fontSize="1.5rem" >
+                  ₹{product.price}
                   </Typography>
-                  <AddToCartButton productId={product.productId} />
+                  
                 </CardContent>
+                  <AddToCartButton productId={product.productId} />
               </Card>
             </li>
           </ul>
@@ -65,7 +66,10 @@ export default function Cart() {
           Place Order
         </Button>
       ) : null}
-      {items.length === 0 && <p>Your cart is empty.</p>}
+     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  {items.length === 0 && <i className="bi bi-cart-x" style={{ fontSize: '35rem', color:"green" }}></i>}
+</div>
+
     </>
   );
 }
