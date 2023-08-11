@@ -36,7 +36,7 @@ exports.searchAllProducts = async (req, res) => {
     ApiResponse.success(res, products, ApiResponseMessages.PRODUCT_ADDED_SUCCESSFULLY);
 };
 
-//DELETE PRODUCTS
+
 exports.deleteProduct = async (req, res) => {
     try {
         const {id} = req.body;

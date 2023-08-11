@@ -25,7 +25,7 @@ exports.getAllProducts = async () => {
     return Product.find();
 };
 exports.getAllProductsByName = async (name) => {
-    return Product.find({name: name});
+    return Product.find({ $text: { $search: name } });
 };
 exports.deleteProductsById = async (id) => {
     return Product.findByIdAndDelete(id);
