@@ -30,11 +30,29 @@ exports.getAllProducts = async (req, res) => {
     const products = await ProductService.getAllProducts();
     ApiResponse.success(res, products, ApiResponseMessages.PRODUCT_ADDED_SUCCESSFULLY);
 };
+
+
 exports.searchAllProducts = async (req, res) => {
-    const {name} = req.params;
-    const products = await ProductService.getAllProductsByName(name);
-    ApiResponse.success(res, products, ApiResponseMessages.PRODUCT_ADDED_SUCCESSFULLY);
+    try {
+        const { name } = req.params;
+        const products = await ProductService.getAllProductsByName(name);
+        
+        if (products.length === 0) {
+            return ApiResponse.success(res, [], 'No products found');
+        }
+
+        // Assuming 'search' is the name of the view template
+        res.render('search', { products }); // Pass products data to the view
+    } catch (error) {
+        console.error('Error searching products:', error);
+        // Return error response if an error occurs
+        return ApiResponse.error(res, 'Error searching products', 500); // 500: Internal Server Error
+    }
 };
+
+
+
+
 
 
 exports.deleteProduct = async (req, res) => {
@@ -57,3 +75,5 @@ exports.deleteProduct = async (req, res) => {
         );
     }
 };
+
+
